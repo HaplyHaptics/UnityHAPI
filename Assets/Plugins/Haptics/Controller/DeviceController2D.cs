@@ -12,6 +12,9 @@ public class DeviceController2D : MonoBehaviour
     private Device device;
     //public Device device; 
     [SerializeField]
+    private NavigationTechnique2D navigation;
+    //public Device device; 
+    [SerializeField]
     private GameObject avatar;
     //public Device device; 
     [SerializeField]
@@ -35,6 +38,7 @@ public class DeviceController2D : MonoBehaviour
 
     public Vector2 ForceEE;
     public Vector2 ForceContacts;
+    public Vector2 ForceNavigation; 
     public Vector2 ForceVC; 
 
     public float TriggerAngle { get; private set; }
@@ -62,6 +66,7 @@ public class DeviceController2D : MonoBehaviour
 
     private Rigidbody2D rb_avatar;
     private Rigidbody2D rb_end_effector;
+
 
 
 
@@ -127,18 +132,18 @@ public class DeviceController2D : MonoBehaviour
                     initOffset = new Vector2(position[0] * scale, position[1] * scale);
 
                     firstPos = false;
-
-
-
+                                       
                 }
 
-                PositionEE = DeviceToGameFrame(new Vector2(position[0] * scale, position[1] * scale)) + initOffset + offset;
 
-    
-               
+                // have the device position 
+                //need to ma
+                PositionEE = DeviceToGameFrame(new Vector2(position[0] * scale, position[1] * scale)) + initOffset + offset;
+                VelocityEE = DeviceToGameFrame(new Vector2(velocity[0] * scale, velocity[1] * scale));
+
 
                 rb_end_effector.position = PositionEE;
-                VelocityEE = DeviceToGameFrame(new Vector2(velocity[0] * scale, velocity[1] * scale));
+        
 
                 ForceVC = k_vc * (PositionEE - rb_avatar.position) + b_vc * (VelocityEE - rb_avatar.velocity);
 
@@ -149,7 +154,8 @@ public class DeviceController2D : MonoBehaviour
                     //Debug.Log("here");
 
                     ForceContacts = -k_stiffness * (PositionEE - rb_avatar.position) - b_damping * (VelocityEE - rb_avatar.velocity);
-
+              
+        
                 }
                 else
                 {
@@ -157,7 +163,11 @@ public class DeviceController2D : MonoBehaviour
 
                 }
 
-                ForceEE = GameToDeviceeFrame(ForceContacts);
+                navigation.CalculateNavigationForce();
+
+                ForceNavigation = navigation.NavigationForce; 
+
+                ForceEE = GameToDeviceeFrame(ForceContacts+ForceNavigation);
 
                 forces[0] = ForceEE.x;
                 forces[1] = ForceEE.y;
@@ -170,8 +180,12 @@ public class DeviceController2D : MonoBehaviour
 
                 if ((rb_avatar.position - rb_end_effector.position).magnitude > distance_threshold)
                 {
+
+                    //navigation method 
+
                     //rb_avatar.MovePosition(rb_end_effector.position);
-                    rb_avatar.position = rb_end_effector.position;
+                    
+                    rb_avatar.position = navigation.AvatarPosition;
 
                 }
 
