@@ -8,22 +8,24 @@ public class Steering : NavigationTechnique2D
     [SerializeField]
     private float velocityScalar;  
 
-    public override void CalculateAvatarPosition(Rigidbody2D rb_end_effector, Rigidbody2D rb_avatar)
+    public override void CalculateAvatarPosition()
     {
-        rb_avatar.AddForce(-velocityScalar * (rb_end_effector.position - rb_avatar.position)); 
+        deviceController.rb_avatar.AddForce(-velocityScalar * (deviceController.rb_end_effector.position - deviceController.rb_avatar.position));
     }
 
-    public override void CalculateAvatarVelocity(Rigidbody2D rb_end_effector, Rigidbody2D rb_avatar)
-    {
-       
-    }
+
 
     public override void CalculateNavigationForce()
     {
         this.NavigationForce = new Vector2(0, 0);
     }
 
-    public override void CalculateScenePosition(Rigidbody2D rb_end_effector, GameObject cameraView)
+    public override void CalculateNavigationPosition()
+    {
+        throw new System.NotImplementedException();
+    }
+
+    public override void CalculateScenePosition()
     {
         throw new System.NotImplementedException();
     }

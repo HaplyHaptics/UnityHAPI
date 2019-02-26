@@ -4,27 +4,23 @@ using UnityEngine;
 
 public class Isometric : NavigationTechnique2D
 {
-    public override void CalculateAvatarPosition(Rigidbody2D rb_end_effector, Rigidbody2D rb_avatar)
-    {
-        this.AvatarPosition = rb_end_effector.position; 
-
-
-    }
-
-    public override void CalculateAvatarVelocity(Rigidbody2D rb_end_effector, Rigidbody2D rb_avatar)
+    public override void CalculateAvatarPosition()
     {
         throw new System.NotImplementedException();
     }
 
     public override void CalculateNavigationForce()
     {
-        this.NavigationForce = new Vector2(0, 0); 
+        throw new System.NotImplementedException();
     }
 
-    public override void CalculateScenePosition(Rigidbody2D rb_end_effector, GameObject cameraView)
+    public override void CalculateNavigationPosition()
     {
         throw new System.NotImplementedException();
     }
 
-
+    public override void CalculateScenePosition()
+    {
+        throw new System.NotImplementedException();
+    }
 }

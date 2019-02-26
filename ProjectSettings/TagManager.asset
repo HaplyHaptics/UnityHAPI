@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Avatar
   - EndEffector
+  - Wall
   layers:
   - Default
   - TransparentFX

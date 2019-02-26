@@ -2,17 +2,25 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BubbleTechnique : MonoBehaviour
+public class BubbleTechnique : NavigationTechnique2D
 {
-    // Start is called before the first frame update
-    void Start()
+    public override void CalculateAvatarPosition()
     {
-        
+        throw new System.NotImplementedException();
     }
 
-    // Update is called once per frame
-    void Update()
+    public override void CalculateNavigationForce()
     {
-        
+        throw new System.NotImplementedException();
+    }
+
+    public override void CalculateNavigationPosition()
+    {
+        throw new System.NotImplementedException();
+    }
+
+    public override void CalculateScenePosition()
+    {
+        throw new System.NotImplementedException();
     }
 }
