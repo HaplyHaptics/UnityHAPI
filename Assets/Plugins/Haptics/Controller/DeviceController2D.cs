@@ -11,8 +11,10 @@ public class DeviceController2D : MonoBehaviour
     [SerializeField]
     private Device device;
     //public Device device; 
-    [SerializeField]
+    //[SerializeField]
     private NavigationTechnique2D navigation;
+    
+    private ContactModel2D contacts;
     //public Device device; 
     [SerializeField]
     private GameObject avatar;
@@ -20,12 +22,7 @@ public class DeviceController2D : MonoBehaviour
     [SerializeField]
     private GameObject end_effector;
     [SerializeField]
-    private GameObject nav_bubble;
-    [SerializeField]
-    public GameObject camera;
-    [SerializeField]
     private float deviceFrameAngle;
-    [SerializeField]
     private float scale;
     [SerializeField]
     private Vector2 offset;
@@ -40,36 +37,30 @@ public class DeviceController2D : MonoBehaviour
     public Vector2 PositionEE { get; private set; }
     public Vector2 VelocityEE { get; private set;  }
 
-    public Vector2 ForceEE;
-    public Vector2 ForceContacts;
-    public Vector2 ForceNavigation; 
-    public Vector2 ForceVC; 
+    private Vector2 ForceEE;
+    private Vector2 ForceContacts;
+    private Vector2 ForceNavigation; 
+  
 
     public float TriggerAngle { get; private set; }
 
     public const int CW = 0;
     public const int CCW = 1;
 
-    public float distance_threshold =10.0f; 
-
-
-
     private float[] angles;
     private float[] angularVelocities; 
     private float[] position;
     private float[] velocity;
 
-    public float k_stiffness;
-    public float b_damping;
-
-    public float k_vc;
-    public float b_vc;
-
     private float[] forces; 
     private float[] torques;
 
+
+    [HideInInspector]
     public Rigidbody2D rb_avatar;
+    [HideInInspector]
     public Rigidbody2D rb_end_effector;
+    [HideInInspector]
     public Rigidbody2D rb_nav_bubble; 
 
 
@@ -79,15 +70,16 @@ public class DeviceController2D : MonoBehaviour
     {
         Debug.Log("Initializing Board");
 
-
+        contacts = GetComponentInChildren<ContactModel2D>();
+        navigation = GetComponent<NavigationTechnique2D>(); 
 
         board.Initialize();
 
-        device.Add_actuator(1, CW, 1);
-        device.Add_actuator(2, CW, 2);
+        device.Add_actuator(1, CCW, 1);
+        device.Add_actuator(2, CCW, 2);
 
-        device.Add_encoder(1, CW, 155, 13824, 1);
-        device.Add_encoder(2, CW, 25, 13824, 2);
+        device.Add_encoder(1, CCW, 155, 13824, 1);
+        device.Add_encoder(2, CCW, 25, 13824, 2);
 
         device.Add_analog_sensor("A0");
         device.Add_analog_sensor("A1");
@@ -104,68 +96,50 @@ public class DeviceController2D : MonoBehaviour
         position = new float[] { 0.0f, 0.0f };
         velocity = new float[] { 0.0f, 0.0f };
 
+        scale = Screen.width / Screen.dpi * 2.54f;
+      
+    }
 
+    public void Update()
+    {
+        scale = Screen.width / Screen.dpi * 2.54f *10;
     }
 
     public void FixedUpdate()
     {
         
-
-
-     
-
         //check if inputQueue has data
 
         if (board.Data_available())
         {
-            device.Device_read_data();
-            angles = device.Get_device_angles();
-            Debug.Log(angles[0]);
-            Debug.Log(angles[1]);
 
-            angularVelocities = device.Get_device_angular_velocities();
-            position = device.Get_device_position(angles);
-            velocity = device.Get_device_velocities(angularVelocities);
+            ReadDeviceStates();
+
 
             if (position != null) //!float.IsNaN(position[0]) && !float.IsNaN(position[1]) && !float.IsInfinity(position[0]) && !float.IsInfinity(position[1]) &&
             {
-                //readyToRead = false;
 
-
-    
-
-
+                // Initialization of position
                 if (firstPos)
                 {
                     initOffset = new Vector2(position[0] * scale, position[1] * scale);
 
-                    firstPos = false;
-                                       
+                    firstPos = false;                
                 }
 
 
-                // have the device position 
-                //need to ma
+                //DeviceStates to Game Coordinates
                 PositionEE = DeviceToGameFrame(new Vector2(position[0] * scale, position[1] * scale)) + initOffset + offset;
                 VelocityEE = DeviceToGameFrame(new Vector2(velocity[0] * scale, velocity[1] * scale));
-
-
                 rb_end_effector.position = PositionEE;
 
 
-                //ForceVC = k_vc * (PositionEE - rb_avatar.position) + b_vc * (VelocityEE - rb_avatar.velocity);
-                ForceVC = k_vc * (Vector2.zero - PositionEE);
+                //Collision Force 
                 
-
-                // if contact
-                //if (end_effector.GetComponent<EndEffector2D>().IsColliding())
-                    if (avatar.GetComponent<Avatar2D>().IsColliding())
-                    {
+                if (contacts.IsColliding)
+                {
                     //Debug.Log("here");
-
-                    //ForceContacts = -k_stiffness * (PositionEE - rb_avatar.position) - b_damping * (VelocityEE - rb_avatar.velocity);
-                    ForceContacts = avatar.GetComponent<Avatar2D>().collisionForce * k_stiffness; 
-
+                    ForceContacts = contacts.CollisionForce; 
 
                 }
                 else
@@ -174,39 +148,27 @@ public class DeviceController2D : MonoBehaviour
 
                 }
 
+                //Navigation Force
+               
                 navigation.CalculateNavigationForce();
+                ForceNavigation =  navigation.NavigationForce;
 
-                ForceNavigation = navigation.NavigationForce;
-                ForceNavigation = ForceVC; 
-
-                ForceEE = GameToDeviceeFrame(ForceContacts+ForceNavigation);
+                //Update Avatar Position
+                navigation.CalculateAvatarPosition(); 
+              
+                // Net Force to Device
+                ForceEE = GameToDeviceeFrame(fscale*(ForceContacts+ForceNavigation));
 
                 forces[0] = ForceEE.x;
                 forces[1] = ForceEE.y;
 
 
 
-                rb_avatar.AddForce(-fscale * ForceVC);
-
-
-
-                if ((rb_avatar.position - rb_end_effector.position).magnitude > distance_threshold)
-                {
-
-                    //navigation method 
-
-                    //rb_avatar.MovePosition(rb_end_effector.position);
-                    
-                    //rb_avatar.position = navigation.AvatarPosition;
-
-                }
-
             }
 
         }
 
-        device.Set_device_torques(forces);
-        device.Device_write_torques();
+        WriteDeviceForces();
 
      }
 
@@ -245,6 +207,23 @@ public class DeviceController2D : MonoBehaviour
         return tmp;
     }
 
+    private void ReadDeviceStates()
+    {
+        device.Device_read_data();
+        angles = device.Get_device_angles();
+
+
+        angularVelocities = device.Get_device_angular_velocities();
+        position = device.Get_device_position(angles);
+        velocity = device.Get_device_velocities(angularVelocities);
+    }
+
+    private void WriteDeviceForces()
+    {
+        //Write Forces
+        device.Set_device_torques(forces);
+        device.Device_write_torques();
+    }
     
 
 

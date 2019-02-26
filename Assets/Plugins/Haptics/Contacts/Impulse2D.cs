@@ -2,13 +2,11 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Avatar2D : MonoBehaviour
+public class Impulse2D : ContactModel2D
 {
 
-    private bool isCollision = false;
-    public Vector2 collisionForce = Vector2.zero;
-
-  
+    [SerializeField]
+    private readonly float impulseDecayConstant = 0.7f; 
 
     private void OnCollisionEnter2D(Collision2D other)
     {
@@ -18,15 +16,15 @@ public class Avatar2D : MonoBehaviour
         if (other.collider.tag != "EndEffector")
         {
             //Debug.Log("is triggering");
-            SetColliding(true);
-            collisionForce = Vector2.zero; 
+            this.IsColliding = true; 
+            CollisionForce = Vector2.zero; 
 
             foreach (ContactPoint2D contact in other.contacts)
             {
-                print(contact.collider.name + " hit " + contact.otherCollider.name);
+                //print(contact.collider.name + " hit " + contact.otherCollider.name);
                 // Visualize the contact point
-                collisionForce = collisionForce + contact.normalImpulse * contact.normal;
-                Debug.DrawRay(contact.point, collisionForce, Color.white);
+                CollisionForce = CollisionForce + Mathf.Pow(contact.normalImpulse,2) * contact.normal;
+                //Debug.DrawRay(contact.point, CollisionForce, Color.white);
                 
 
             }
@@ -36,8 +34,8 @@ public class Avatar2D : MonoBehaviour
     private void OnCollisionStay2D(Collision2D other)
     {
         //Debug.Log("is triggering");
-        SetColliding(true);
-        collisionForce = 0.7f * collisionForce; 
+        this.IsColliding = true; 
+        CollisionForce = impulseDecayConstant* CollisionForce; 
     }
 
 
@@ -46,19 +44,11 @@ public class Avatar2D : MonoBehaviour
         if (other.collider.tag != "EndEffector")
         {
             //Debug.Log("is triggering");
-            SetColliding(false);
+            this.IsColliding = false; 
         }
     }
 
-    public bool IsColliding()
-    {
-        return isCollision;
-    }
 
-    private void SetColliding(bool arg)
-    {
-        isCollision = arg;
-    }
 
 
 }

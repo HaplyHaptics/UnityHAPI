@@ -5,7 +5,7 @@ using UnityEngine;
 public abstract class NavigationTechnique2D : MonoBehaviour
 {
    
-    public DeviceController2D deviceController; 
+    public DeviceController2D deviceController;
 
     public Vector2 NavigationForce { get; set; }
     public Vector2 AvatarPosition { get; set; }

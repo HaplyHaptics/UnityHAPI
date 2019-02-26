@@ -138,7 +138,7 @@ public class DeviceController3D : MonoBehaviour
         
 
             // if contact
-            if (end_effector.GetComponent<EndEffector3D>().IsColliding())
+            if (end_effector.GetComponent<GodParticle3D>().IsColliding())
             {
                 //Debug.Log("here");
 

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class EndEffector3D : MonoBehaviour
+public class GodParticle3D : MonoBehaviour
 {
 
     private bool isCollision = false;
