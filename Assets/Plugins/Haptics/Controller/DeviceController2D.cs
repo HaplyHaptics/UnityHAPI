@@ -14,7 +14,7 @@ public class DeviceController2D : MonoBehaviour
     //[SerializeField]
     private NavigationTechnique2D navigation;
     
-    private ContactModel2D contacts;
+    private ContactModel2D[] contacts;
     //public Device device; 
     [SerializeField]
     private GameObject avatar;
@@ -61,25 +61,30 @@ public class DeviceController2D : MonoBehaviour
     [HideInInspector]
     public Rigidbody2D rb_end_effector;
     [HideInInspector]
-    public Rigidbody2D rb_nav_bubble; 
+    public Rigidbody2D rb_nav_bubble;
 
+    [SerializeField]
+    private float movementScalar = 10.0f;
 
-
+    public bool invert; 
 
     public void Start()
     {
         Debug.Log("Initializing Board");
 
-        contacts = GetComponentInChildren<ContactModel2D>();
+
+        contacts = GetComponentsInChildren<ContactModel2D>();
         navigation = GetComponent<NavigationTechnique2D>(); 
 
         board.Initialize();
 
-        device.Add_actuator(1, CCW, 1);
-        device.Add_actuator(2, CCW, 2);
+        var orientation = invert ? CW : CCW; 
 
-        device.Add_encoder(1, CCW, 155, 13824, 1);
-        device.Add_encoder(2, CCW, 25, 13824, 2);
+        device.Add_actuator(1, orientation, 1);
+        device.Add_actuator(2, orientation, 2);
+
+        device.Add_encoder(1, orientation, 155, 13824, 1);
+        device.Add_encoder(2, orientation, 25, 13824, 2);
 
         device.Add_analog_sensor("A0");
         device.Add_analog_sensor("A1");
@@ -96,13 +101,13 @@ public class DeviceController2D : MonoBehaviour
         position = new float[] { 0.0f, 0.0f };
         velocity = new float[] { 0.0f, 0.0f };
 
-        scale = Screen.width / Screen.dpi * 2.54f;
+        scale = Screen.width / Screen.dpi * 2.54f * movementScalar;
       
     }
 
     public void Update()
     {
-        scale = Screen.width / Screen.dpi * 2.54f *10;
+        scale = Screen.width / Screen.dpi * 2.54f * movementScalar;
     }
 
     public void FixedUpdate()
@@ -131,28 +136,39 @@ public class DeviceController2D : MonoBehaviour
                 //DeviceStates to Game Coordinates
                 PositionEE = DeviceToGameFrame(new Vector2(position[0] * scale, position[1] * scale)) + initOffset + offset;
                 VelocityEE = DeviceToGameFrame(new Vector2(velocity[0] * scale, velocity[1] * scale));
+
+                PositionEE = transform.rotation * PositionEE;
+                VelocityEE = transform.rotation * VelocityEE;
+
+                PositionEE += (Vector2) transform.position; 
                 rb_end_effector.position = PositionEE;
 
 
                 //Collision Force 
-                
-                if (contacts.IsColliding)
-                {
+
+                ForceContacts = Vector2.zero;
+               
+              
                     //Debug.Log("here");
-                    ForceContacts = contacts.CollisionForce; 
-
-                }
-                else
-                {
-                    ForceContacts = Vector2.zero;
-
-                }
+                    for (int i = 0; i < contacts.Length; i++)
+                    {
+                    //print(contacts[i].tag);
+                        if (contacts[i].IsColliding)
+                        {
+                            ForceContacts = ForceContacts + contacts[i].CollisionForce;
+                        }
+                    }
+                
+           
 
                 //Navigation Force
                
                 navigation.CalculateNavigationForce();
                 ForceNavigation =  navigation.NavigationForce;
 
+
+                ForceNavigation = Quaternion.Inverse(transform.rotation) * ForceNavigation; 
+                ForceContacts = Quaternion.Inverse(transform.rotation) * ForceContacts;
                 //Update Avatar Position
                 navigation.CalculateAvatarPosition(); 
               
@@ -188,7 +204,7 @@ public class DeviceController2D : MonoBehaviour
     {
         Vector2 tmp = new Vector2
         {
-            x = Mathf.Cos(deviceFrameAngle * Mathf.Deg2Rad) * vec.x + Mathf.Sin(deviceFrameAngle * Mathf.Deg2Rad) * vec.y,
+            x = Mathf.Cos((deviceFrameAngle+transform.rotation.eulerAngles.z) * Mathf.Deg2Rad) * vec.x + Mathf.Sin(deviceFrameAngle * Mathf.Deg2Rad) * vec.y,
             y = -Mathf.Sin(deviceFrameAngle * Mathf.Deg2Rad) * vec.x + Mathf.Cos(deviceFrameAngle * Mathf.Deg2Rad) * vec.y
         };
 

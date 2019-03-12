@@ -201,9 +201,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b41a5be54d94abd47aa3da42152f8147, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  deviceController: {fileID: 0}
-  k_stiffness: 0.3
-  b_damping: 0.0005
 --- !u!58 &46260992
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -654,9 +651,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b41a5be54d94abd47aa3da42152f8147, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  deviceController: {fileID: 0}
-  k_stiffness: 0.3
-  b_damping: 0.0005
 --- !u!58 &187934584
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -946,9 +940,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b41a5be54d94abd47aa3da42152f8147, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  deviceController: {fileID: 0}
-  k_stiffness: 0.3
-  b_damping: 0.0005
 --- !u!58 &227626219
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -1255,9 +1246,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b41a5be54d94abd47aa3da42152f8147, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  deviceController: {fileID: 0}
-  k_stiffness: 0.3
-  b_damping: 0.0005
 --- !u!58 &364321526
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -1425,7 +1413,7 @@ Rigidbody2D:
   m_Material: {fileID: 0}
   m_Interpolate: 0
   m_SleepingMode: 1
-  m_CollisionDetection: 0
+  m_CollisionDetection: 1
   m_Constraints: 0
 --- !u!212 &365067230
 SpriteRenderer:
@@ -1885,7 +1873,7 @@ Rigidbody2D:
   m_Material: {fileID: 0}
   m_Interpolate: 0
   m_SleepingMode: 1
-  m_CollisionDetection: 0
+  m_CollisionDetection: 1
   m_Constraints: 0
 --- !u!212 &647467146
 SpriteRenderer:
@@ -1894,7 +1882,7 @@ SpriteRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 647467143}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 0
   m_ReceiveShadows: 0
   m_DynamicOccludee: 1
@@ -1958,12 +1946,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 647467143}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b41a5be54d94abd47aa3da42152f8147, type: 3}
+  m_Script: {fileID: 11500000, guid: 7c88fda17e791f64f93f4bf1bf46c659, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   deviceController: {fileID: 1793824168}
-  k_stiffness: 0.3
-  b_damping: 0
+  k_stiffness: 0.5
+  b_damping: 0.00005
 --- !u!1 &652695470
 GameObject:
   m_ObjectHideFlags: 0
@@ -2319,9 +2307,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b41a5be54d94abd47aa3da42152f8147, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  deviceController: {fileID: 0}
-  k_stiffness: 0.3
-  b_damping: 0.0005
 --- !u!58 &816198581
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -2926,7 +2911,7 @@ Rigidbody2D:
   m_Material: {fileID: 0}
   m_Interpolate: 0
   m_SleepingMode: 1
-  m_CollisionDetection: 0
+  m_CollisionDetection: 1
   m_Constraints: 0
 --- !u!212 &1082594616
 SpriteRenderer:
@@ -3133,7 +3118,7 @@ Rigidbody2D:
   m_Material: {fileID: 0}
   m_Interpolate: 0
   m_SleepingMode: 1
-  m_CollisionDetection: 0
+  m_CollisionDetection: 1
   m_Constraints: 0
 --- !u!212 &1115195840
 SpriteRenderer:
@@ -3537,7 +3522,7 @@ Rigidbody2D:
   m_Material: {fileID: 0}
   m_Interpolate: 0
   m_SleepingMode: 1
-  m_CollisionDetection: 0
+  m_CollisionDetection: 1
   m_Constraints: 0
 --- !u!212 &1192563282
 SpriteRenderer:
@@ -4034,9 +4019,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b41a5be54d94abd47aa3da42152f8147, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  deviceController: {fileID: 0}
-  k_stiffness: 0.3
-  b_damping: 0.0005
 --- !u!58 &1395300865
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -4168,9 +4150,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b41a5be54d94abd47aa3da42152f8147, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  deviceController: {fileID: 0}
-  k_stiffness: 0.3
-  b_damping: 0.0005
 --- !u!58 &1406858376
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -5551,9 +5530,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   deviceController: {fileID: 1793824168}
   distance_threshold: 10
-  k_vc: 1
-  b_vc: 0
-  vc_scalar: 2000
+  k_vc: 200000
+  b_vc: 50
 --- !u!114 &1793824168
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5571,9 +5549,9 @@ MonoBehaviour:
   avatar: {fileID: 1971946247}
   end_effector: {fileID: 647467143}
   deviceFrameAngle: 180
-  offset: {x: 0, y: 0}
+  offset: {x: 0, y: -8}
   initOffset: {x: 0, y: 0}
-  fscale: 1
+  fscale: 0.75
   rb_avatar: {fileID: 0}
   rb_end_effector: {fileID: 0}
   rb_nav_bubble: {fileID: 0}
@@ -5589,7 +5567,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: caae2930a4d29934f99cada4224e6f12, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  windowsComPort: COM8
+  windowsComPort: COM11
   macComPort: 
   baudRate: 0
   serialTimeout: 10
@@ -6133,6 +6111,7 @@ GameObject:
   - component: {fileID: 1971946251}
   - component: {fileID: 1971946250}
   - component: {fileID: 1971946249}
+  - component: {fileID: 1971946248}
   m_Layer: 0
   m_Name: Avatar
   m_TagString: Avatar
@@ -6140,6 +6119,20 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!114 &1971946248
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1971946247}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dc8c48ffa05f7314b85b3c12ea7168e7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  deviceController: {fileID: 1793824168}
+  impulseDecayConstant: 0.05
 --- !u!50 &1971946249
 Rigidbody2D:
   serializedVersion: 4
@@ -6152,14 +6145,14 @@ Rigidbody2D:
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
-  m_Mass: 1
-  m_LinearDrag: 0
+  m_Mass: 0.1
+  m_LinearDrag: 1000
   m_AngularDrag: 1000
   m_GravityScale: 0
   m_Material: {fileID: 0}
   m_Interpolate: 0
   m_SleepingMode: 0
-  m_CollisionDetection: 0
+  m_CollisionDetection: 1
   m_Constraints: 0
 --- !u!58 &1971946250
 CircleCollider2D:

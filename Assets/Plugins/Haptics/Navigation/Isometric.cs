@@ -9,16 +9,15 @@ public class Isometric : NavigationTechnique2D
     private float k_vc = 5000.0f;
     [SerializeField]
     private float b_vc = 2.0f;
-    [SerializeField]
-    private float vc_scalar = 2000.0f; 
+
 
 
 
     public override void CalculateAvatarPosition()
     {
-         
-        deviceController.rb_avatar.AddForce(k_vc * (deviceController.PositionEE - deviceController.rb_avatar.position) + b_vc * (deviceController.VelocityEE - deviceController.rb_avatar.velocity));
 
+        //deviceController.rb_avatar.AddForce(k_vc * (deviceController.PositionEE - deviceController.rb_avatar.position) + b_vc * (deviceController.VelocityEE - deviceController.rb_avatar.velocity));
+        deviceController.rb_avatar.MovePosition(deviceController.rb_end_effector.position);
 
         if ((this.deviceController.rb_avatar.position - this.deviceController.rb_end_effector.position).magnitude > distance_threshold)
         {

@@ -6,7 +6,13 @@ public class Impulse2D : ContactModel2D
 {
 
     [SerializeField]
-    private readonly float impulseDecayConstant = 0.7f; 
+    private float impulseDecayConstant = 0.7f;
+
+
+    private void FixedUpdate()
+    {
+        CollisionForce = impulseDecayConstant * CollisionForce;
+    }
 
     private void OnCollisionEnter2D(Collision2D other)
     {
@@ -16,16 +22,16 @@ public class Impulse2D : ContactModel2D
         if (other.collider.tag != "EndEffector")
         {
             //Debug.Log("is triggering");
-            this.IsColliding = true; 
-            CollisionForce = Vector2.zero; 
+            this.IsColliding = true;
+            CollisionForce = Vector2.zero;
 
             foreach (ContactPoint2D contact in other.contacts)
             {
                 //print(contact.collider.name + " hit " + contact.otherCollider.name);
                 // Visualize the contact point
-                CollisionForce = CollisionForce + Mathf.Pow(contact.normalImpulse,2) * contact.normal;
+                CollisionForce = CollisionForce + Mathf.Pow(contact.normalImpulse, 1) * contact.normal;
                 //Debug.DrawRay(contact.point, CollisionForce, Color.white);
-                
+
 
             }
         }
@@ -34,8 +40,8 @@ public class Impulse2D : ContactModel2D
     private void OnCollisionStay2D(Collision2D other)
     {
         //Debug.Log("is triggering");
-        this.IsColliding = true; 
-        CollisionForce = impulseDecayConstant* CollisionForce; 
+        this.IsColliding = true;
+        CollisionForce =Vector2.zero; 
     }
 
 
@@ -44,7 +50,8 @@ public class Impulse2D : ContactModel2D
         if (other.collider.tag != "EndEffector")
         {
             //Debug.Log("is triggering");
-            this.IsColliding = false; 
+            this.IsColliding = false;
+            CollisionForce = Vector2.zero;
         }
     }
 

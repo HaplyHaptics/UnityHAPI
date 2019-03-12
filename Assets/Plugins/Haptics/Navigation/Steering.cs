@@ -13,14 +13,14 @@ public class Steering : NavigationTechnique2D
 
     public override void CalculateAvatarPosition()
     {
-        deviceController.rb_avatar.AddForce(velocityScalar * (deviceController.rb_end_effector.position - deviceController.rb_avatar.position));
+        deviceController.rb_avatar.AddForce(velocityScalar * (deviceController.rb_end_effector.position - (Vector2) transform.position));
     }
     //rb_avatar.AddForce(-fscale* ForceVC);
 
 
     public override void CalculateNavigationForce()
     {
-        this.NavigationForce = -k_nav * deviceController.rb_end_effector.position; 
+        this.NavigationForce = -k_nav * (deviceController.rb_end_effector.position - (Vector2)transform.position); 
     }
 
     public override void CalculateNavigationPosition()

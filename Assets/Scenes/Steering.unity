@@ -302,9 +302,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b41a5be54d94abd47aa3da42152f8147, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  deviceController: {fileID: 0}
-  k_stiffness: 0.3
-  b_damping: 0.0005
 --- !u!58 &10343692
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -558,9 +555,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b41a5be54d94abd47aa3da42152f8147, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  deviceController: {fileID: 0}
-  k_stiffness: 0.3
-  b_damping: 0.0005
 --- !u!58 &131084163
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -1604,9 +1598,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b41a5be54d94abd47aa3da42152f8147, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  deviceController: {fileID: 0}
-  k_stiffness: 0.3
-  b_damping: 0.0005
 --- !u!58 &402648594
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -2766,9 +2757,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b41a5be54d94abd47aa3da42152f8147, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  deviceController: {fileID: 0}
-  k_stiffness: 0.3
-  b_damping: 0.0005
 --- !u!58 &651663941
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -3587,9 +3575,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b41a5be54d94abd47aa3da42152f8147, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  deviceController: {fileID: 0}
-  k_stiffness: 0.3
-  b_damping: 0.0005
 --- !u!58 &1012749222
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -4574,7 +4559,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: caae2930a4d29934f99cada4224e6f12, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  windowsComPort: COM8
+  windowsComPort: COM11
   macComPort: 
   baudRate: 0
   serialTimeout: 10
@@ -4638,8 +4623,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   deviceController: {fileID: 1376921540}
-  velocityScalar: 100
-  k_nav: 0.01
+  velocityScalar: 50
+  k_nav: 0.03
 --- !u!1 &1459666167
 GameObject:
   m_ObjectHideFlags: 0
@@ -6153,9 +6138,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b41a5be54d94abd47aa3da42152f8147, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  deviceController: {fileID: 0}
-  k_stiffness: 0.3
-  b_damping: 0.0005
 --- !u!58 &1977911752
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -6416,7 +6398,7 @@ Rigidbody2D:
   m_Material: {fileID: 0}
   m_Interpolate: 0
   m_SleepingMode: 0
-  m_CollisionDetection: 0
+  m_CollisionDetection: 1
   m_Constraints: 0
 --- !u!58 &2042892277
 CircleCollider2D:
@@ -6505,7 +6487,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 2042892275}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4b3b41045acf29844b05b9132725dfed, type: 3}
+  m_Script: {fileID: 11500000, guid: dc8c48ffa05f7314b85b3c12ea7168e7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   deviceController: {fileID: 1376921540}
@@ -6620,9 +6602,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b41a5be54d94abd47aa3da42152f8147, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  deviceController: {fileID: 0}
-  k_stiffness: 0.3
-  b_damping: 0.0005
 --- !u!58 &2098750309
 CircleCollider2D:
   m_ObjectHideFlags: 0

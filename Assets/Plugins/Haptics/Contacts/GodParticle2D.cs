@@ -10,9 +10,6 @@ public class GodParticle2D : ContactModel2D
     private float b_damping = 0.0005f;
 
 
-    //ForceNavigation = ForceVC; 
-    //ForceContacts = -k_stiffness * (PositionEE - rb_avatar.position) - b_damping * (VelocityEE - rb_avatar.velocity);
-
     private void OnTriggerStay2D(Collider2D other)
     {
         //Debug.Log("is triggering");
@@ -22,8 +19,8 @@ public class GodParticle2D : ContactModel2D
         {
             //Debug.Log("is triggering");
             IsColliding = true;
-            
-           CollisionForce =  -k_stiffness * (deviceController.PositionEE - deviceController.rb_avatar.position) - b_damping * (deviceController.VelocityEE - deviceController.rb_avatar.velocity);
+
+            CollisionForce = -k_stiffness * (deviceController.PositionEE - deviceController.rb_avatar.position) - b_damping * (deviceController.VelocityEE - deviceController.rb_avatar.velocity);
         }
     }
 
@@ -32,8 +29,14 @@ public class GodParticle2D : ContactModel2D
         if (other.tag != "Avatar")
         {
             //Debug.Log("is triggering");
-            IsColliding = false; 
+            IsColliding = false;
+            CollisionForce = Vector2.zero; 
         }
+    }
+
+    private void Start()
+    {
+        
     }
 
 
